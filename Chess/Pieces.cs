@@ -1,6 +1,4 @@
-﻿using System.Xml.Schema;
-
-namespace Chess
+﻿namespace Chess
 {
     //VEDERE SE PUOI CAMBIARE IL STRING POS CON IL INT[] POS CHE è UN CASINO
     internal class Pieces
@@ -157,6 +155,7 @@ namespace Chess
             if (table[j, i] == null) return true;
             else return false;
         }
+        m
         public void Eat(int[] currentpos, int[] nextpos)
         {
             table[nextpos[0], nextpos[1]] = table[currentpos[0], currentpos[1]];
