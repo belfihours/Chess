@@ -2,13 +2,13 @@
 
 namespace Chess.Models.SpecificPieces;
 
-internal class King : IChessPiece
+internal class Queen : IChessPiece
 {
     public string Name { get; private set; }
     public string Color { get; private set; }
     public Coordinate Position { get; set; }
 
-    public King(string name, string color, Coordinate position)
+    public Queen(string name, string color, Coordinate position)
     {
         Name = name;
         Color = color;
@@ -17,17 +17,8 @@ internal class King : IChessPiece
 
     public IEnumerable<Coordinate> GetPossibleMoves()
     {
-        for (int i = -1; i < 1; i++)
-        {
-            for (int j = -1; j < 1; j++)
-            {
-                Coordinate possiblePosition = new(Position.X + i, Position.Y + j);
-                if (possiblePosition != Position)
-                {
-                    yield return possiblePosition;
-                }
-            }
-        }
+        var possibleMoves = Tower.GetPossibleMoves(Position).Concat(Bishop.GetPossibleMoves(Position));
+        return possibleMoves;
     }
 
     public void Show()

@@ -155,7 +155,7 @@
             if (table[j, i] == null) return true;
             else return false;
         }
-        m
+
         public void Eat(int[] currentpos, int[] nextpos)
         {
             table[nextpos[0], nextpos[1]] = table[currentpos[0], currentpos[1]];

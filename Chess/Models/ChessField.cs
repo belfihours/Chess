@@ -6,6 +6,8 @@ internal class ChessField
 
     public FieldPos[,] Table { get; private set; }
 
+    FieldPos FieldPos;
+
     public ChessField()
     {
         Table = new FieldPos[8, 8];

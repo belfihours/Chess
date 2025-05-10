@@ -2,32 +2,34 @@
 
 namespace Chess.Models.SpecificPieces;
 
-internal class King : IChessPiece
+internal class Pawn : IChessPiece
 {
     public string Name { get; private set; }
     public string Color { get; private set; }
     public Coordinate Position { get; set; }
+    private readonly Coordinate _startPosition;
 
-    public King(string name, string color, Coordinate position)
+    public Pawn(string name, string color, Coordinate position)
     {
         Name = name;
         Color = color;
         Position = position;
+        _startPosition = position;
     }
 
     public IEnumerable<Coordinate> GetPossibleMoves()
     {
+        List<Coordinate> possibleMoves = [];
         for (int i = -1; i < 1; i++)
         {
-            for (int j = -1; j < 1; j++)
-            {
-                Coordinate possiblePosition = new(Position.X + i, Position.Y + j);
-                if (possiblePosition != Position)
-                {
-                    yield return possiblePosition;
-                }
-            }
+            possibleMoves.Add(new(Position.X + i, Position.Y + 1));
         }
+        if (Position == _startPosition)
+        {
+            possibleMoves.Add(new(Position.X, Position.Y + 2));
+        }
+        return possibleMoves;
+
     }
 
     public void Show()
