@@ -1,21 +1,8 @@
-﻿using Chess.Models.Interfaces;
+﻿namespace Chess.Models.SpecificPieces;
 
-namespace Chess.Models.SpecificPieces;
-
-internal class King : IChessPiece
+internal class King(Color color, Coordinate position) : ChessPiece(color, position)
 {
-    public string Name { get; private set; }
-    public string Color { get; private set; }
-    public Coordinate Position { get; set; }
-
-    public King(string name, string color, Coordinate position)
-    {
-        Name = name;
-        Color = color;
-        Position = position;
-    }
-
-    public IEnumerable<Coordinate> GetPossibleMoves()
+    public override IEnumerable<Coordinate> GetPossibleMoves()
     {
         for (int i = -1; i < 1; i++)
         {
@@ -28,10 +15,5 @@ internal class King : IChessPiece
                 }
             }
         }
-    }
-
-    public void Show()
-    {
-        throw new NotImplementedException();
     }
 }

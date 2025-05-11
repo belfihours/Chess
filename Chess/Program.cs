@@ -1,7 +1,29 @@
 ﻿
 //initialize table and pieces
 using Chess;
+using Chess.Data;
+using Chess.Utils;
 using System.ComponentModel;
+
+
+
+Console.SetCursorPosition(20, 0);
+Console.WriteLine("Hello");
+Console.SetCursorPosition(20, 2);
+Console.WriteLine("World");
+
+var printer = new Printer();
+var chessField = StandardChessTableStart.Get();
+printer.PrintChessField(chessField);
+
+
+Console.ReadLine();
+
+
+
+
+
+
 
 int turnCounter = 0;
 List<int[]> possibleMoves = new List<int[]>();

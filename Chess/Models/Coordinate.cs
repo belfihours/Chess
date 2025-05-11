@@ -1,13 +1,7 @@
 ﻿namespace Chess.Models;
 
-internal class Coordinate
+internal record struct Coordinate(int x, int y)
 {
-    public double X { get; set; }
-    public double Y { get; set; }
-
-    public Coordinate(double x, double y)
-    {
-        X = x;
-        Y = y;
-    }
+    public int X { get; set; } = x;
+    public int Y { get; set; } = y;
 }

@@ -2,31 +2,12 @@
 
 namespace Chess.Models;
 
-internal abstract class ChessPiece : IChessPiece
+internal abstract class ChessPiece(Color color, Coordinate position) : IChessPiece
 {
-    public string Name { get; set; }
-    public string Color { get; set; }
-    public Coordinate Position { get; set; }
-    public ChessPiece(string name, string color, Coordinate position)
-    {
-        Name = name;
-        Color = color;
-        Position = position;
-    }
+    public Color Color { get; private set; } = color;
+    public Coordinate Position { get; set; } = position;
+    public char Letter => this.GetType().Name[0];
 
-    public virtual void Show()
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual void Eat()
-    {
-        throw new NotImplementedException();
-    }
-
-    public virtual IEnumerable<Coordinate> GetPossibleMoves()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract IEnumerable<Coordinate> GetPossibleMoves();
 }
 
