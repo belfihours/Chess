@@ -10,7 +10,7 @@ internal class FieldPos
     {
         BackColor = backColor;
     }
-    public string GetLetter() => _piece?.Letter.ToString() ?? "\u00A0";
+    public char GetLetter() => _piece?.Letter ?? ' ';
     public bool IsEmpty() => _empty;
     public ChessPiece? GetPiece() => _piece;
     public ChessPiece? PlacePiece(ChessPiece piece)
