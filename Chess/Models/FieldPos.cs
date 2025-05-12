@@ -2,12 +2,17 @@
 
 internal class FieldPos
 {
+    public Coordinate Position { get; }
     private bool _empty = true;
     private ChessPiece? _piece;
     public ConsoleColor BackColor { get; }
-    public FieldPos() { }
-    public FieldPos(ConsoleColor backColor)
+    public FieldPos(Coordinate coordinate)
     {
+        Position = coordinate;
+    }
+    public FieldPos(Coordinate coordinate, ConsoleColor backColor)
+    {
+        Position = coordinate;
         BackColor = backColor;
     }
     public char GetLetter() => _piece?.Letter ?? ' ';

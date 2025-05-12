@@ -6,18 +6,17 @@ using Chess.Utils;
 using System.ComponentModel;
 
 
-
-Console.SetCursorPosition(20, 0);
-Console.WriteLine("Hello");
-Console.SetCursorPosition(20, 2);
-Console.WriteLine("World");
-
 var printer = new Printer();
+var inputPicker = new MouseInputPicker();
 var chessField = StandardChessTableStart.Get();
-printer.PrintChessField(chessField);
+var ext = false;
+while (!ext)
+{
+    printer.PrintChessGame(chessField);
+    var input = inputPicker.GetInput();
+    Console.WriteLine($"X: {input.X}, Y:{input.Y}");
 
-
-Console.ReadLine();
+}
 
 
 

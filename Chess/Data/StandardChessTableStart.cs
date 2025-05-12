@@ -13,7 +13,9 @@ internal static class StandardChessTableStart
         var pieces = GetWhites().Concat(GetBlacks());
         foreach (var piece in pieces)
         {
-            chessField.Table[piece.Position].PlacePiece(piece);
+            var pos = chessField.Table.FirstOrDefault(f => f.Position.Equals(piece.Position));
+            ArgumentNullException.ThrowIfNull(pos);
+            pos.PlacePiece(piece);
         }
         return chessField;
     }

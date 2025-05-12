@@ -9,16 +9,40 @@ internal class Printer
     private const int _multiplierX = 3;
     private const int _multiplierY = 1;
     private readonly IEnumerable<char> _letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    private readonly ConsoleColor _defaultBackColor = ConsoleColor.Black;
+    private readonly ConsoleColor _defaultForegroundColor = ConsoleColor.White;
 
-    public void PrintChessField(ChessField field)
+    public void PrintChessGame(ChessField field)
     {
         Console.Clear();
+        PrintField(field);
+        PrintScore(field);
+    }
+
+    private void PrintScore(ChessField field)
+    {
+        RestorePrintColors();
+        SetPositionByCoordinate(new(0, _offsetY+11), true);
+        Console.WriteLine($"White pieces: {field.GetPiecesCount(Color.White)}");
+        Console.WriteLine($"Black pieces: {field.GetPiecesCount(Color.Black)}");
+        var nextToMove = field.GetTurn();
+        Console.WriteLine($"Turn {field.Turn}: moves {nextToMove}");
+    }
+
+    private void RestorePrintColors()
+    {
+        Console.ForegroundColor = _defaultForegroundColor;
+        Console.BackgroundColor = _defaultBackColor;
+    }
+
+    private void PrintField(ChessField field)
+    {
         PrintBorders();
         foreach (var fieldPos in field.Table)
         {
-            SetPositionByCoordinate(fieldPos.Key);
+            SetPositionByCoordinate(fieldPos.Position);
             SetColor(fieldPos);
-            PrintChar(fieldPos.Value.GetLetter());
+            PrintChar(fieldPos.GetLetter());
         }
     }
 
@@ -91,8 +115,13 @@ internal class Printer
         }
     }
 
-    private static void SetPositionByCoordinate(Coordinate coordinate)
+    private static void SetPositionByCoordinate(Coordinate coordinate, bool absolute=false)
     {
+        if (absolute)
+        {
+            Console.SetCursorPosition(coordinate.X, coordinate.Y);
+            return;
+        }
         Coordinate pos = GetCursorPosition(coordinate);
         Console.SetCursorPosition(pos.X, pos.Y);
     }
@@ -106,17 +135,17 @@ internal class Printer
             );
     }
 
-    private static void SetColor(KeyValuePair<Coordinate, FieldPos> fieldPos)
+    private static void SetColor(FieldPos fieldPos)
     {
-        Console.BackgroundColor = fieldPos.Value.BackColor;
+        Console.BackgroundColor = fieldPos.BackColor;
         SetForegroundColor(fieldPos);
     }
 
-    private static void SetForegroundColor(KeyValuePair<Coordinate, FieldPos> fieldPos)
+    private static void SetForegroundColor(FieldPos fieldPos)
     {
-        if (!fieldPos.Value.IsEmpty())
+        if (!fieldPos.IsEmpty())
         {
-            Console.ForegroundColor = fieldPos.Value.GetPiece()!.Color.Equals(Color.White)
+            Console.ForegroundColor = fieldPos.GetPiece()!.Color.Equals(Color.White)
                 ? ConsoleColor.Gray
                 : ConsoleColor.Black;
         }
