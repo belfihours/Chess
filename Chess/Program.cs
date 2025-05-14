@@ -2,21 +2,16 @@
 //initialize table and pieces
 using Chess;
 using Chess.Data;
+using Chess.Models;
 using Chess.Utils;
 using System.ComponentModel;
 
+var game = new ChessGame();
 
-var printer = new Printer();
-var inputPicker = new MouseInputPicker();
-var chessField = StandardChessTableStart.Get();
-var ext = false;
-while (!ext)
-{
-    printer.PrintChessGame(chessField);
-    var input = inputPicker.GetInput();
-    Console.WriteLine($"X: {input.X}, Y:{input.Y}");
+game.Run();
 
-}
+
+
 
 
 

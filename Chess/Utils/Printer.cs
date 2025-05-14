@@ -4,19 +4,57 @@ namespace Chess.Utils;
 
 internal class Printer
 {
-    private const int _offsetX = 20;
-    private const int _offsetY = 5;
-    private const int _multiplierX = 3;
-    private const int _multiplierY = 1;
+    private readonly int _offsetX = 20;
+    private readonly int _offsetY = 5;
+    private readonly int _multiplierX = 3;
+    private readonly int _multiplierY = 1;
     private readonly IEnumerable<char> _letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     private readonly ConsoleColor _defaultBackColor = ConsoleColor.Black;
     private readonly ConsoleColor _defaultForegroundColor = ConsoleColor.White;
+
+    public Printer(int offsetX, int offsetY, int multiplierX, int multiplierY)
+    {
+        _offsetX = offsetX;
+        _offsetY = offsetY;
+        _multiplierX = multiplierX;
+        _multiplierY = multiplierY;
+    }
+    public Printer() { }
 
     public void PrintChessGame(ChessField field)
     {
         Console.Clear();
         PrintField(field);
         PrintScore(field);
+    }
+
+    public void PrintPossibleMoves(ChessField field, IEnumerable<Coordinate> coordinates)
+    {
+        RestorePrintColors();
+        foreach (var coord in coordinates)
+        {
+            SetPositionByCoordinate(coord);
+            Console.BackgroundColor = ConsoleColor.Green;
+            PrintChar(' ');
+        }
+    }
+
+    public Coordinate GetAlteredPosition(Coordinate key)
+    {
+        return new
+            (
+                _offsetX + (key.X * _multiplierX),
+                _offsetY + (key.Y * _multiplierY)
+            );
+    }
+
+    public Coordinate GetAbsolutePosition(Coordinate key)
+    {
+        return new
+            (
+                (key.X - _offsetX) / _multiplierX,
+                (key.Y - _offsetY) / _multiplierY
+            );
     }
 
     private void PrintScore(ChessField field)
@@ -35,8 +73,9 @@ internal class Printer
         Console.BackgroundColor = _defaultBackColor;
     }
 
-    private void PrintField(ChessField field)
+    public void PrintField(ChessField field)
     {
+        RestorePrintColors();
         PrintBorders();
         foreach (var fieldPos in field.Table)
         {
@@ -73,13 +112,13 @@ internal class Printer
         PrintFieldNumbers();
     }
 
-    private static void PrintFieldNumbers()
+    private void PrintFieldNumbers()
     {
         PrintLeftSideNumbers();
         PrintRightSideNumbers();
     }
 
-    private static void PrintRightSideNumbers()
+    private void PrintRightSideNumbers()
     {
         SetPositionByCoordinate(new(9, -1));
         PrintChar('|');
@@ -93,7 +132,7 @@ internal class Printer
         PrintChar('|');
     }
 
-    private static void PrintLeftSideNumbers()
+    private void PrintLeftSideNumbers()
     {
         SetPositionByCoordinate(new(-2, -1));
         PrintChar('|');
@@ -115,24 +154,15 @@ internal class Printer
         }
     }
 
-    private static void SetPositionByCoordinate(Coordinate coordinate, bool absolute=false)
+    private void SetPositionByCoordinate(Coordinate coordinate, bool absolute = false)
     {
         if (absolute)
         {
             Console.SetCursorPosition(coordinate.X, coordinate.Y);
             return;
         }
-        Coordinate pos = GetCursorPosition(coordinate);
+        Coordinate pos = GetAlteredPosition(coordinate);
         Console.SetCursorPosition(pos.X, pos.Y);
-    }
-
-    private static Coordinate GetCursorPosition(Coordinate key)
-    {
-        return new
-            (
-                _offsetX + (key.X * _multiplierX),
-                _offsetY + (key.Y * _multiplierY)
-            );
     }
 
     private static void SetColor(FieldPos fieldPos)
